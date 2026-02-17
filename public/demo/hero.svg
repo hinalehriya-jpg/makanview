@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/>
+      <stop offset="0.55" stop-color="#161616"/>
+      <stop offset="1" stop-color="#f6f4ee"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f2d08a"/>
+      <stop offset="0.5" stop-color="#caa24a"/>
+      <stop offset="1" stop-color="#8a6b1f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="35%" cy="25%" r="70%">
+      <stop offset="0" stop-color="#f2d08a" stop-opacity="0.35"/>
+      <stop offset="0.6" stop-color="#f2d08a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+  <rect width="1600" height="1200" fill="url(#glow)"/>
+
+  <!-- subtle skyline blocks -->
+  <g opacity="0.22">
+    <rect x="120" y="520" width="90" height="520" fill="#ffffff"/>
+    <rect x="240" y="610" width="70" height="430" fill="#ffffff"/>
+    <rect x="340" y="450" width="110" height="590" fill="#ffffff"/>
+    <rect x="490" y="580" width="85" height="460" fill="#ffffff"/>
+    <rect x="610" y="520" width="120" height="520" fill="#ffffff"/>
+    <rect x="760" y="640" width="75" height="400" fill="#ffffff"/>
+    <rect x="860" y="470" width="130" height="570" fill="#ffffff"/>
+    <rect x="1020" y="600" width="85" height="440" fill="#ffffff"/>
+    <rect x="1140" y="520" width="150" height="520" fill="#ffffff"/>
+    <rect x="1320" y="660" width="70" height="380" fill="#ffffff"/>
+  </g>
+
+  <!-- gold line accent -->
+  <path d="M90 1035 C 420 905, 780 1120, 1510 980" fill="none" stroke="url(#gold)" stroke-width="6" opacity="0.65"/>
+
+  <!-- text -->
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="110" y="210" font-size="56" fill="#ffffff" opacity="0.9" font-weight="700">Dubai Luxury Real Estate</text>
+    <text x="110" y="260" font-size="24" fill="#ffffff" opacity="0.65">Premium listings • Professional service • Trusted guidance</text>
+  </g>
+</svg>
+
+
+
+
+
+
+
+

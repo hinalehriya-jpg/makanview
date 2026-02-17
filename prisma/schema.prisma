@@ -1,0 +1,87 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  SOLD
+  RENTED
+}
+
+enum ListingType {
+  READY
+  NEAR_HANDOVER
+  OFF_PLAN
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Property {
+  id           String         @id @default(cuid())
+  title        String
+  slug         String         @unique
+  location     String
+  priceAed     Int?
+  propertyType String
+  bedrooms     Int?
+  bathrooms    Int?
+  areaSqft     Int?
+  description  String         @db.Text
+  status       PropertyStatus @default(AVAILABLE)
+  listingType  ListingType    @default(READY)
+  featured     Boolean        @default(false)
+  images       PropertyImage[]
+  leads        Lead[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // ─── High-Traffic Indexes ───
+  // Homepage: featured properties sorted by updatedAt
+  @@index([featured, updatedAt(sort: Desc)])
+  // Listing page: filter by status + listingType + propertyType
+  @@index([status, listingType, propertyType])
+  // Listing page: sort by updatedAt
+  @@index([updatedAt(sort: Desc)])
+  // Filter by status alone (most common filter)
+  @@index([status])
+  // Filter by listingType alone
+  @@index([listingType])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId String
+  url        String
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([propertyId, sortOrder])
+}
+
+model Lead {
+  id         String    @id @default(cuid())
+  name       String
+  email      String?
+  phone      String?
+  message    String?   @db.Text
+  source     String?   @default("Website")
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  propertyId String?
+  createdAt  DateTime  @default(now())
+
+  @@index([propertyId])
+  @@index([createdAt(sort: Desc)])
+}
