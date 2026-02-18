@@ -24,24 +24,24 @@ export const revalidate = 60;
 export default async function Home() {
   const properties = await cached(CACHE_KEYS.FEATURED_PROPERTIES, TTL.MEDIUM, async () => {
     try {
-      const featured = await prisma.property.findMany({
-        where: { featured: true },
-        orderBy: { updatedAt: "desc" },
-        take: 6,
-        include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
-      });
+  const featured = await prisma.property.findMany({
+    where: { featured: true },
+    orderBy: { updatedAt: "desc" },
+    take: 6,
+    include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
+  });
 
       if (featured.length > 0) return featured;
 
       return prisma.property.findMany({
-        orderBy: { updatedAt: "desc" },
-        take: 6,
-        include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
+          orderBy: { updatedAt: "desc" },
+          take: 6,
+          include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
       });
     } catch {
       return [];
     }
-  });
+        });
 
   const wa = whatsappLink(
     "Hello Makanview Properties — I'd like to enquire."
@@ -347,7 +347,7 @@ export default async function Home() {
             {properties.map((p) => (
               <PropertyCard
                 key={p.id}
-                  property={{
+                property={{
                   title: p.title,
                   slug: p.slug,
                   location: p.location,

@@ -65,6 +65,7 @@ model PropertyImage {
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId String
   url        String
+  mediaType  String   @default("image") // "image" or "video"
   sortOrder  Int      @default(0)
   createdAt  DateTime @default(now())
 

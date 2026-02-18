@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatAed } from "@/lib/utils";
@@ -32,24 +35,90 @@ export function PropertyCard({
     featured: boolean;
     listingType?: string;
     status?: string;
-    images?: { url: string }[];
+    images?: { url: string; mediaType?: string }[];
   };
 }) {
-  const img = property.images?.[0]?.url ?? FALLBACK_IMAGE;
+  const media = property.images && property.images.length > 0 
+    ? property.images 
+    : [{ url: FALLBACK_IMAGE, mediaType: "image" }];
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentMedia = media[currentIndex];
+  const isVideo = currentMedia?.mediaType === "video";
+  
   const wa = whatsappLink(
     `Hello Makanview Properties — I'd like to enquire about: ${property.title}`
   );
 
+  const goToPrevious = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
+  };
+
+  const goToNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <div className="group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:shadow-md">
       <Link href={`/properties/${property.slug}`}>
-        <div className="relative aspect-[4/3] bg-zinc-100">
-          <Image
-            src={img}
-            alt={property.title}
-            fill
-            className="object-cover transition group-hover:scale-[1.02]"
-          />
+        <div className="relative aspect-[4/3] bg-zinc-100 overflow-hidden">
+          {isVideo ? (
+            <>
+              <video
+                key={currentMedia.url}
+                src={currentMedia.url}
+                className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-[1.02]"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+              <div className="absolute bottom-3 right-3 rounded bg-black/70 px-2 py-1 text-xs font-medium text-white">
+                Video
+              </div>
+            </>
+          ) : (
+            <Image
+              src={currentMedia.url}
+              alt={property.title}
+              fill
+              className="object-cover transition group-hover:scale-[1.02]"
+            />
+          )}
+          
+          {/* Navigation Arrows */}
+          {media.length > 1 && (
+            <>
+              <button
+                onClick={goToPrevious}
+                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg opacity-0 group-hover:opacity-100 transition hover:bg-white z-10"
+                aria-label="Previous"
+              >
+                <svg className="h-4 w-4 text-zinc-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg opacity-0 group-hover:opacity-100 transition hover:bg-white z-10"
+                aria-label="Next"
+              >
+                <svg className="h-4 w-4 text-zinc-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              
+              {/* Counter */}
+              <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-2 py-1 text-xs font-medium text-white">
+                {currentIndex + 1} / {media.length}
+              </div>
+            </>
+          )}
+
           <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
             {property.featured && (
               <span className="rounded-full bg-amber-200/90 px-3 py-1 text-xs font-semibold text-zinc-900 ring-1 ring-black/10">

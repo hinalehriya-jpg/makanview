@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/Container";
+import { PropertyGallery } from "@/components/PropertyGallery";
 import { formatAed } from "@/lib/utils";
 import { SITE, whatsappLink } from "@/lib/site";
 import { PropertyEnquiryForm } from "@/components/PropertyEnquiryForm";
@@ -56,8 +57,8 @@ export default async function PropertyDetailPage({
 
   const property = await cached(CACHE_KEYS.propertyDetail(slug), TTL.SHORT, () =>
     prisma.property.findUnique({
-      where: { slug },
-      include: { images: { orderBy: { sortOrder: "asc" } } },
+    where: { slug },
+    include: { images: { orderBy: { sortOrder: "asc" } } },
     })
   );
 
@@ -69,7 +70,7 @@ export default async function PropertyDetailPage({
   const hero = property.images[0]?.url ?? FALLBACK_IMAGE;
   const allImages = property.images.length
     ? property.images
-    : [{ url: hero, id: "fallback", sortOrder: 0 }];
+    : [{ url: hero, id: "fallback", sortOrder: 0, mediaType: "image" as const }];
 
   return (
     <div className="bg-white">
@@ -132,40 +133,8 @@ export default async function PropertyDetailPage({
           </div>
         </div>
 
-        {/* Image Gallery */}
-        <div className="mt-8">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-black/10 bg-zinc-100 sm:aspect-[16/8]">
-            <Image
-              src={hero}
-              alt={property.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          {allImages.length > 1 && (
-            <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
-              {allImages.slice(0, 6).map((img, idx) => (
-                <div
-                  key={img.id || idx}
-                  className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-black/10 bg-zinc-100"
-                >
-                  <Image
-                    src={img.url}
-                    alt={`${property.title} image ${idx + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                  {idx === 5 && allImages.length > 6 && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-sm font-semibold text-white">
-                      +{allImages.length - 6} more
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Media Gallery */}
+        <PropertyGallery media={allImages} title={property.title} />
 
         {/* Content Grid */}
         <div className="mt-10 grid gap-8 lg:grid-cols-3">
@@ -262,26 +231,26 @@ export default async function PropertyDetailPage({
                 <p className="mt-2 text-sm text-zinc-500">
                   Get in touch with our team for viewings, pricing details, and
                   more.
-                </p>
-                <div className="mt-5 grid gap-3">
-                  {wa ? (
-                    <a
-                      href={wa}
-                      target="_blank"
-                      rel="noopener noreferrer"
+              </p>
+              <div className="mt-5 grid gap-3">
+                {wa ? (
+                  <a
+                    href={wa}
+                    target="_blank"
+                    rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white hover:bg-zinc-800 transition"
-                    >
+                  >
                       <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
                         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 0 0 .612.616l4.528-1.469A11.948 11.948 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.319 0-4.476-.712-6.27-1.928l-.438-.3-2.685.87.893-2.636-.328-.467A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
                       </svg>
-                      WhatsApp
-                    </a>
-                  ) : null}
+                    WhatsApp
+                  </a>
+                ) : null}
                   <a
                     href={`tel:${SITE.whatsappNumber}`}
                     className="rounded-xl border border-black/10 bg-white px-4 py-3 text-center text-sm font-semibold text-zinc-900 hover:bg-zinc-50 transition"
-                  >
+                >
                     Call Us
                   </a>
                 </div>

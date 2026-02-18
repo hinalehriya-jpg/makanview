@@ -78,21 +78,21 @@ export default function AdminDashboardPage() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
             Dashboard
-          </h1>
+            </h1>
           <p className="mt-1 text-sm text-zinc-500">
             Manage your property listings
-          </p>
-        </div>
-        <Link
+            </p>
+          </div>
+          <Link
           href="/admin/properties/new"
           className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800"
-        >
+          >
           + Add Property
-        </Link>
-      </div>
+          </Link>
+        </div>
 
       {/* Stats */}
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -107,20 +107,20 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl border border-black/10 bg-white p-5">
           <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
             Featured
-          </div>
+                </div>
           <div className="mt-2 text-3xl font-bold text-amber-600">
             {featuredCount}
-          </div>
-        </div>
+                </div>
+              </div>
         <div className="rounded-2xl border border-black/10 bg-white p-5">
           <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
             Total Leads
-          </div>
+              </div>
           <div className="mt-2 text-3xl font-bold text-zinc-900">
             {totalLeads}
           </div>
+          </div>
         </div>
-      </div>
 
       {/* Properties Table */}
       <div className="mt-8 overflow-hidden rounded-2xl border border-black/10 bg-white">

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 interface PropertyImage {
   id: string;
   url: string;
+  mediaType?: string;
   sortOrder: number;
 }
 
@@ -127,7 +128,9 @@ export function PropertyForm({
   }
 
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
-  const [pendingPreviews, setPendingPreviews] = useState<string[]>([]);
+  const [pendingPreviews, setPendingPreviews] = useState<
+    Array<{ url: string; type: "image" | "video" }>
+  >([]);
 
   async function uploadFiles(propertyId: string, files: File[]) {
     const fd = new FormData();
@@ -160,7 +163,10 @@ export function PropertyForm({
     } else {
       // Queue files for upload after creation
       setPendingFiles((prev) => [...prev, ...files]);
-      const previews = files.map((f) => URL.createObjectURL(f));
+      const previews = files.map((f) => ({
+        url: URL.createObjectURL(f),
+        type: f.type.startsWith("video/") ? ("video" as const) : ("image" as const),
+      }));
       setPendingPreviews((prev) => [...prev, ...previews]);
     }
     e.target.value = "";
@@ -332,11 +338,11 @@ export function PropertyForm({
         </div>
       </section>
 
-      {/* Images */}
+      {/* Images & Videos */}
       <section className="rounded-2xl border border-black/10 bg-white p-6">
-        <h2 className="text-lg font-semibold text-zinc-900">Images</h2>
+        <h2 className="text-lg font-semibold text-zinc-900">Images & Videos</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Upload high-quality images (JPEG, PNG, WebP). Max 10 MB each.
+          Upload images (JPEG, PNG, WebP) or videos (MP4, MOV, WebM). Max 50 MB each.
         </p>
 
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
@@ -345,12 +351,26 @@ export function PropertyForm({
               key={img.id}
               className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-black/10 bg-zinc-100"
             >
-              <Image
-                src={img.url}
-                alt=""
-                fill
-                className="object-cover"
-              />
+              {img.mediaType === "video" ? (
+                <video
+                  src={img.url}
+                  className="h-full w-full object-cover"
+                  muted
+                  playsInline
+                />
+              ) : (
+                <Image
+                  src={img.url}
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              )}
+              {img.mediaType === "video" && (
+                <div className="absolute bottom-2 left-2 rounded bg-black/70 px-2 py-0.5 text-xs font-medium text-white">
+                  Video
+                </div>
+              )}
               <button
                 type="button"
                 onClick={() => handleDeleteImage(img.id)}
@@ -360,17 +380,26 @@ export function PropertyForm({
               </button>
             </div>
           ))}
-          {pendingPreviews.map((src, idx) => (
+          {pendingPreviews.map((preview, idx) => (
             <div
               key={`pending-${idx}`}
               className="relative aspect-[4/3] overflow-hidden rounded-xl border border-dashed border-amber-400 bg-amber-50"
             >
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-cover opacity-70"
-              />
+              {preview.type === "video" ? (
+                <video
+                  src={preview.url}
+                  className="h-full w-full object-cover opacity-70"
+                  muted
+                  playsInline
+                />
+              ) : (
+                <Image
+                  src={preview.url}
+                  alt=""
+                  fill
+                  className="object-cover opacity-70"
+                />
+              )}
               <div className="absolute bottom-2 left-2 rounded bg-amber-200 px-2 py-0.5 text-xs font-medium text-amber-800">
                 Pending
               </div>
@@ -379,12 +408,12 @@ export function PropertyForm({
           <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-black/10 bg-zinc-50 text-zinc-500 transition hover:border-amber-400 hover:bg-amber-50 hover:text-amber-700">
             <span className="text-2xl">+</span>
             <span className="mt-1 text-xs font-medium">
-              {uploading ? "Uploading…" : "Add Images"}
+              {uploading ? "Uploading…" : "Add Media"}
             </span>
             <input
               type="file"
               multiple
-              accept="image/*"
+              accept="image/*,video/*"
               className="hidden"
               onChange={handleFileSelect}
               disabled={uploading}

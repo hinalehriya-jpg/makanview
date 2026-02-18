@@ -55,10 +55,10 @@ export default async function PropertiesPage({
     try {
       return await prisma.property.findMany({
         where,
-        orderBy: [{ featured: "desc" }, { updatedAt: "desc" }],
-        take: 60,
-        include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
-      });
+    orderBy: [{ featured: "desc" }, { updatedAt: "desc" }],
+    take: 60,
+    include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
+  });
     } catch {
       return [];
     }
@@ -85,19 +85,19 @@ export default async function PropertiesPage({
     <div className="bg-white">
       {/* Header */}
       <section className="border-b border-black/5 bg-zinc-50 py-12">
-        <Container>
+      <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
+          <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">
                 Browse Listings
               </p>
               <h1 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Properties in Dubai
-              </h1>
-              <p className="mt-2 text-sm text-zinc-600">
+            </h1>
+            <p className="mt-2 text-sm text-zinc-600">
                 {properties.length} propert{properties.length === 1 ? "y" : "ies"} found
-              </p>
-            </div>
+            </p>
+          </div>
             <div className="flex gap-2">
               {wa ? (
                 <a
@@ -109,13 +109,13 @@ export default async function PropertiesPage({
                   WhatsApp
                 </a>
               ) : null}
-              <Link
-                href="/contact"
+          <Link
+            href="/contact"
                 className="rounded-xl border border-black/10 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 transition"
-              >
-                Enquire
-              </Link>
-            </div>
+          >
+            Enquire
+          </Link>
+        </div>
           </div>
 
           {/* Filters */}
@@ -206,26 +206,26 @@ export default async function PropertiesPage({
         <Container>
           {properties.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {properties.map((p) => (
-                <PropertyCard
-                  key={p.id}
-                  property={{
-                    title: p.title,
-                    slug: p.slug,
-                    location: p.location,
-                    priceAed: p.priceAed,
-                    propertyType: p.propertyType,
-                    bedrooms: p.bedrooms,
-                    bathrooms: p.bathrooms,
-                    areaSqft: p.areaSqft,
-                    featured: p.featured,
+          {properties.map((p) => (
+            <PropertyCard
+              key={p.id}
+              property={{
+                title: p.title,
+                slug: p.slug,
+                location: p.location,
+                priceAed: p.priceAed,
+                propertyType: p.propertyType,
+                bedrooms: p.bedrooms,
+                bathrooms: p.bathrooms,
+                areaSqft: p.areaSqft,
+                featured: p.featured,
                     listingType: p.listingType,
                     status: p.status,
-                    images: p.images,
-                  }}
-                />
-              ))}
-            </div>
+                images: p.images,
+              }}
+            />
+          ))}
+        </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-black/10 bg-zinc-50 p-16 text-center">
               <div className="text-sm text-zinc-500">
@@ -239,7 +239,7 @@ export default async function PropertiesPage({
               </div>
             </div>
           )}
-        </Container>
+      </Container>
       </section>
     </div>
   );

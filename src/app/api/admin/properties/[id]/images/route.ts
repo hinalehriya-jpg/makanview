@@ -4,9 +4,17 @@ import { uploadFile } from "@/lib/storage";
 
 export const runtime = "nodejs";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB per file
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB per file (increased for videos)
 const MAX_FILES = 20; // max files per upload batch
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "video/mp4",
+  "video/quicktime",
+  "video/webm",
+];
 
 // UPLOAD images for a property
 export async function POST(
@@ -24,7 +32,7 @@ export async function POST(
   const files = formData.getAll("images") as File[];
 
   if (!files.length) {
-    return NextResponse.json({ error: "No images provided" }, { status: 400 });
+    return NextResponse.json({ error: "No files provided" }, { status: 400 });
   }
 
   if (files.length > MAX_FILES) {
@@ -52,7 +60,7 @@ export async function POST(
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      skipped.push({ name: file.name, reason: "File too large (max 10 MB)" });
+      skipped.push({ name: file.name, reason: "File too large (max 50 MB)" });
       continue;
     }
 
@@ -66,10 +74,14 @@ export async function POST(
       // Upload to S3 (production) or disk (dev) via storage abstraction
       const result = await uploadFile(id, file);
 
+      // Determine media type
+      const mediaType = file.type.startsWith("video/") ? "video" : "image";
+
       const image = await prisma.propertyImage.create({
         data: {
           propertyId: id,
           url: result.url,
+          mediaType,
           sortOrder: sortOrder++,
         },
       });

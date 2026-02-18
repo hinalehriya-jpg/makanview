@@ -22,19 +22,19 @@ export default async function ContactPage({
     <div className="bg-white">
       {/* Header */}
       <section className="border-b border-black/5 bg-zinc-50 py-12 sm:py-16">
-        <Container>
+      <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">
               Get In Touch
             </p>
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
               Contact Us
-            </h1>
+        </h1>
             <p className="mt-4 text-base leading-7 text-zinc-600">
               Send us your requirement and we&apos;ll respond quickly. Our team
               is available to assist you with any real estate needs.
             </p>
-          </div>
+              </div>
         </Container>
       </section>
 
@@ -56,7 +56,7 @@ export default async function ContactPage({
             {/* Form */}
             <div className="lg:col-span-2">
               <ContactForm />
-            </div>
+          </div>
 
             {/* Sidebar */}
             <aside className="space-y-6 lg:col-span-1">
@@ -65,12 +65,12 @@ export default async function ContactPage({
                 <div className="text-sm font-bold text-zinc-900">WhatsApp</div>
                 <p className="mt-2 text-sm text-zinc-600">
                   For faster response, message us directly on WhatsApp.
-                </p>
-                {wa ? (
-                  <a
-                    href={wa}
-                    target="_blank"
-                    rel="noopener noreferrer"
+              </p>
+              {wa ? (
+                <a
+                  href={wa}
+                  target="_blank"
+                  rel="noopener noreferrer"
                     className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-3 text-sm font-semibold text-white hover:bg-green-600 transition"
                   >
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -78,13 +78,13 @@ export default async function ContactPage({
                       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 0 0 .612.616l4.528-1.469A11.948 11.948 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.319 0-4.476-.712-6.27-1.928l-.438-.3-2.685.87.893-2.636-.328-.467A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
                     </svg>
                     Click to Chat
-                  </a>
-                ) : (
+                </a>
+              ) : (
                   <div className="mt-4 text-xs text-zinc-400">
                     WhatsApp CTA will appear when configured.
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
 
               {/* Contact Info */}
               <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm">
@@ -93,15 +93,15 @@ export default async function ContactPage({
                   className="mt-2 block text-zinc-600 hover:text-amber-700 transition"
                   href={`mailto:${SITE.email}`}
                 >
-                  {SITE.email}
-                </a>
+                {SITE.email}
+              </a>
 
                 <div className="mt-6 font-bold text-zinc-900">Office Address</div>
                 <div className="mt-2 text-zinc-600">{SITE.addressLine1}</div>
                 <div className="text-zinc-600">{SITE.addressLine2}</div>
-              </div>
-            </aside>
-          </div>
+            </div>
+          </aside>
+        </div>
 
           {/* Google Map */}
           <div className="mt-12">
@@ -123,7 +123,7 @@ export default async function ContactPage({
               />
             </div>
           </div>
-        </Container>
+      </Container>
       </section>
     </div>
   );

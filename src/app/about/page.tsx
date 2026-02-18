@@ -26,14 +26,14 @@ export default function AboutPage() {
     <div className="bg-white">
       {/* Hero */}
       <section className="border-b border-black/5 bg-zinc-50 py-16 sm:py-20">
-        <Container>
+      <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">
               About Us
             </p>
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
               Your Trusted Partner in Dubai Real Estate
-            </h1>
+        </h1>
             <p className="mt-5 text-base leading-7 text-zinc-600">
               {SITE.name} is a Dubai-based real estate company focused on
               delivering a premium, professional experience for property buyers,
@@ -95,7 +95,7 @@ export default function AboutPage() {
                   Founder
                 </p>
                 <h2 className="mt-2 text-xl font-bold text-zinc-900">
-                  Company Founder
+                  Ankit Sharma
                 </h2>
                 <p className="mt-1 text-sm font-medium text-zinc-500">
                   Founder &amp; CEO, {SITE.name}
@@ -218,9 +218,9 @@ export default function AboutPage() {
               >
                 Contact Us
               </Link>
-            </div>
           </div>
-        </Container>
+        </div>
+      </Container>
       </section>
     </div>
   );

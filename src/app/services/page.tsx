@@ -88,14 +88,14 @@ export default function ServicesPage() {
     <div className="bg-white">
       {/* Hero */}
       <section className="border-b border-black/5 bg-zinc-50 py-16 sm:py-20">
-        <Container>
+      <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">
               What We Offer
             </p>
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
               Our Services
-            </h1>
+        </h1>
             <p className="mt-5 text-base leading-7 text-zinc-600">
               A focused, professional set of services designed for Dubai&apos;s
               premium real estate market. From buying your dream home to building
@@ -110,7 +110,7 @@ export default function ServicesPage() {
         <Container>
           <div className="space-y-8">
             {SERVICES.map((service, idx) => (
-              <div
+            <div
                 key={service.title}
                 className="overflow-hidden rounded-2xl border border-black/5 bg-white transition hover:shadow-md"
               >
@@ -145,10 +145,10 @@ export default function ServicesPage() {
                     </ul>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Container>
+            </div>
+          ))}
+        </div>
+      </Container>
       </section>
 
       {/* CTA */}
