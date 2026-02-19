@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  
+  title: `About Us | ${SITE.name}`,
   description:
     "Learn about Makanview Properties — a trusted Dubai real estate company offering premium buying, selling, and investment services.",
 };
