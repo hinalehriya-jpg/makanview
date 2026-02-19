@@ -21,33 +21,50 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script_stop: true
+          command_timeout: 30m
           script: |
+            set -e
+            
+            echo "📦 Starting deployment..."
             cd /var/www/makanview
 
             # Pull latest code
+            echo "→ Pulling latest code..."
             git pull origin main
 
-            # Install dependencies
-            npm install --production=false
+            # Install dependencies (use ci for faster, cleaner installs)
+            echo "→ Installing dependencies..."
+            npm ci --production=false
 
             # Generate Prisma client
+            echo "→ Generating Prisma client..."
             npx prisma generate
 
             # Apply any new database migrations (PostgreSQL)
+            echo "→ Running database migrations..."
             npx prisma migrate deploy
 
             # Ensure uploads directory exists (for non-S3 fallback)
             mkdir -p public/uploads
 
             # Build the Next.js app
+            echo "→ Building Next.js app..."
             npm run build
 
-            # Restart with PM2 cluster mode (zero-downtime reload)
-            if pm2 describe makanview > /dev/null 2>&1; then
-              pm2 reload ecosystem.config.js
-            else
-              pm2 start ecosystem.config.js
-              pm2 save
-            fi
+            # Stop PM2 before restart to avoid restart loops
+            echo "→ Stopping PM2..."
+            pm2 stop makanview || true
+
+            # Delete old PM2 process
+            pm2 delete makanview || true
+
+            # Start fresh with PM2
+            echo "→ Starting PM2..."
+            pm2 start ecosystem.config.js
+            pm2 save
+
+            # Show status
+            echo "→ PM2 Status:"
+            pm2 status
 
             echo "✅ Deployment complete!"
