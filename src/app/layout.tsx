@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     "Dubai property investment",
   ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  icons: {
+    icon: [
+      { url: "/makanview.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/makanview.svg" }],
+  },
+  applicationName: SITE.name,
   openGraph: {
     type: "website",
     locale: "en_US",

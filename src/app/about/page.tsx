@@ -1,11 +1,11 @@
 import { Container } from "@/components/Container";
 import { SITE, whatsappLink } from "@/lib/site";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import {
   Target,
   Eye,
-  UserCircle,
   ShieldCheck,
   Building2,
   Globe,
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: `About Us | ${SITE.name}`,
+  
   description:
     "Learn about Makanview Properties — a trusted Dubai real estate company offering premium buying, selling, and investment services.",
 };
@@ -86,8 +86,14 @@ export default function AboutPage() {
           <div className="mx-auto max-w-3xl">
             <div className="rounded-2xl border border-black/5 bg-white p-8 md:flex md:gap-8">
               <div className="flex flex-shrink-0 items-start justify-center md:w-40">
-                <div className="flex h-32 w-32 items-center justify-center rounded-2xl bg-zinc-100">
-                  <UserCircle className="h-16 w-16 text-zinc-300" />
+                <div className="relative h-32 w-32 overflow-hidden rounded-2xl">
+                  <Image
+                    src="/images/founder.jpeg"
+                    alt="Ankit Sharma - Founder & CEO"
+                    fill
+                    className="object-cover"
+                    sizes="128px"
+                  />
                 </div>
               </div>
               <div className="mt-6 md:mt-0">
@@ -107,9 +113,7 @@ export default function AboutPage() {
                   to create a company that clients trust for honesty, expertise,
                   and premium service — every single time.
                 </p>
-                <p className="mt-3 text-xs text-zinc-400 italic">
-                  (Founder photo &amp; bio to be provided by the client)
-                </p>
+               
               </div>
             </div>
           </div>
