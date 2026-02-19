@@ -88,7 +88,7 @@ export default function AboutPage() {
               <div className="flex flex-shrink-0 items-start justify-center md:w-40">
                 <div className="relative h-32 w-32 overflow-hidden rounded-2xl">
                   <Image
-                    src="/images/founder.jpeg"
+                    src="https://makanview-images.s3.me-central-1.amazonaws.com/uploads/founder.jpeg"
                     alt="Ankit Sharma - Founder & CEO"
                     fill
                     className="object-cover"

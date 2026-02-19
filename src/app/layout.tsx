@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   icons: {
     icon: [
-      { url: "/makanview.svg", type: "image/svg+xml" },
+      { url: "https://makanview-images.s3.me-central-1.amazonaws.com/uploads/WhatsApp+Image+2026-02-20+at+12.34.44+AM.jpeg", sizes: "any" },
     ],
-    apple: [{ url: "/makanview.svg" }],
+    apple: [{ url: "https://makanview-images.s3.me-central-1.amazonaws.com/uploads/WhatsApp+Image+2026-02-20+at+12.34.44+AM.jpeg" }],
   },
   applicationName: SITE.name,
   openGraph: {
